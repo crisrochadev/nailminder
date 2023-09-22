@@ -2,7 +2,7 @@
   <q-page class="w-full grid md:grid-cols-2 gap-4 p-4 h-full overflow-y-auto">
     <q-card v-if="user" class="p-2 md:p-8">
       <h2
-        class="uppercase border-b border-cyan-600 mb-4 p-0 text-cyan-6 font-bold"
+        class="uppercase border-b border-cyan-600 mb-4 p-0  font-bold" :class="[$theme.titleColor]"
       >
         Dados Cadastrais
       </h2>
@@ -15,7 +15,7 @@
           dense
           outlined
           class="full-width"
-          color="cyan-6"
+          :color="$theme.buttomColor"
           v-model="user.name"
         >
         </q-input>
@@ -24,7 +24,7 @@
           dense
           outlined
           class="full-width"
-          color="cyan-6"
+          :color="$theme.buttomColor"
           v-model="user.username"
         >
         </q-input>
@@ -34,7 +34,7 @@
           dense
           outlined
           class="full-width"
-          color="cyan-6"
+          :color="$theme.buttomColor"
           v-model="user.email"
         >
         </q-input>
@@ -44,7 +44,7 @@
           dense
           outlined
           class="full-width"
-          color="cyan-6"
+          :color="$theme.buttomColor"
           mask="(##) #####-####"
           v-model="user.phone"
         ></q-input>
@@ -53,8 +53,8 @@
           icon="contact_mail"
           class="full-width"
           flat
-          header-class="text-cyan-6 uppercase text-sm"
-          expand-icon-class="text-cyan-6"
+          :header-class="[$theme.titleColor, 'uppercase text-sm']"
+          :expand-icon-class="[$theme.titleColor]"
         >
           <div class="space-y-4">
             <q-input
@@ -63,7 +63,7 @@
               class="full-width mt-4"
               outlined
               dense
-              color="cyan-6"
+              :color="$theme.buttomColor"
               mask="#####-###"
               @blur="checkCep"
               :loading="ceploading"
@@ -77,7 +77,7 @@
               option-value="sigla"
               outlined
               dense
-              color="cyan-6"
+              :color="$theme.buttomColor"
               options-dense
               use-input
               @input-value="filterOptionState"
@@ -95,7 +95,7 @@
               :options="cities"
               options-dense
               :disable="!ufSelected"
-              color="cyan-6"
+              :color="$theme.buttomColor"
               v-model="user.address_city"
             />
             <q-input
@@ -103,7 +103,7 @@
               class="full-width"
               outlined
               dense
-              color="cyan-6"
+              :color="$theme.buttomColor"
               v-model="user.address_street"
             />
             <q-input
@@ -111,7 +111,7 @@
               class="full-width"
               outlined
               dense
-              color="cyan-6"
+              :color="$theme.buttomColor"
               v-model="user.address_number"
             />
             <q-input
@@ -119,7 +119,7 @@
               class="full-width"
               outlined
               dense
-              color="cyan-6"
+              :color="$theme.buttomColor"
               v-model="user.address_district"
             />
             <q-input
@@ -127,17 +127,18 @@
               class="full-width"
               outlined
               dense
-              color="cyan-6"
+              :color="$theme.buttomColor"
               v-model="user.address_complement"
             />
           </div>
         </q-expansion-item>
-        <q-btn type="submit" icon="save" label="salvar" color="cyan-6" />
+        <q-btn type="submit" icon="save" label="salvar" :color="$theme.buttomColor" />
       </q-form>
     </q-card>
     <q-card v-if="user" class="px-4 py-2 md:p-8">
       <h2
-        class="uppercase border-b border-cyan-600 mb-4 p-0 text-cyan-6 font-bold"
+        class="uppercase border-b border-cyan-600 mb-4 p-0 font-bold"
+        :class="[$theme.titleColor]"
       >
         Carregar Imagens
       </h2>
@@ -217,12 +218,13 @@
           type="submit"
           icon="save"
           label="Salvar Imagens"
-          color="cyan-6"
+          :color="$theme.buttomColor"
           :loading="imageLoading"
         />
       </q-form>
       <h2
-        class="uppercase border-b border-cyan-600 mb-4 p-0 text-cyan-6 font-bold"
+        class="uppercase border-b border-cyan-600 mb-4 p-0  font-bold"
+        :class="[$theme.titleColor]"
       >
         Alterar Senha
       </h2>
@@ -232,7 +234,7 @@
       >
         <div class="w-full relative h-10">
           <q-input
-            color="cyan-6"
+            :color="$theme.buttomColor"
             class="full-width"
             ref="pass_value"
             dense
@@ -262,7 +264,7 @@
                 round
                 size="sm"
                 flat
-                color="cyan-6"
+                :color="$theme.buttomColor"
                 @click="showPass = !showPass"
               />
             </template>
@@ -272,7 +274,7 @@
               <q-list dense>
                 <q-item>
                   <q-item-section>
-                    <q-item-label class="uppercase text-cyan-6"
+                    <q-item-label class="uppercase " :class="[$theme.titleColor]"
                       >Sua senha precisa ter:</q-item-label
                     >
                   </q-item-section>
@@ -339,7 +341,7 @@
           </div>
         </div>
         <q-input
-          color="cyan-6"
+          :color="$theme.buttomColor"
           class="full-width"
           ref="pass_value"
           dense
@@ -366,12 +368,12 @@
               round
               size="sm"
               flat
-              color="cyan-6"
+              :color="$theme.buttomColor"
               @click="showPass = !showPass"
             />
           </template>
         </q-input>
-        <q-btn type="submit" icon="save" label="Alterar Senha" color="cyan-6" />
+        <q-btn type="submit" icon="save" label="Alterar Senha" :color="$theme.buttomColor" />
       </q-form>
     </q-card>
   </q-page>
@@ -475,6 +477,11 @@ export default {
       cities: [],
     };
   },
+  computed:{
+    $theme(){
+      return this.userStore.theme
+    }
+  },
   async mounted() {
     const res = await AuthUser();
     this.user = res.user;
@@ -499,7 +506,9 @@ export default {
       );
     },
     async saveData() {
-      this.user.address_state = this.user.address_state.sigla;
+      this.user.address_state = this.user.address_state && this.user.address_state.sigla
+        ? this.user.address_state.sigla
+        : null;
       if (
         this.user.address_city !== "" &&
         this.user.address_city !== null &&

@@ -14,8 +14,11 @@ const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
-    
-
+    theme: {
+      // ...
+      customVariables: ['~src/css/variables.scss'],
+      theme: 'nail_theme', // ou 'ios', dependendo do tema que você está usando
+    },
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
@@ -23,12 +26,11 @@ module.exports = configure(function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [
-      
       'axios',
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    css: ['app.scss', 'tailwind.css'],
+    css: ['app.scss', 'tailwind.css', 'style.css'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -84,7 +86,9 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      config: {},
+      config: {
+
+      },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack

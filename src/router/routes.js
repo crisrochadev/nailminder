@@ -29,6 +29,7 @@ const routes = [
       { path: '', name:'admin', component: () => import('pages/admin/DashboardPage.vue') },
       { path: 'agenda', name:'schedule', component: () => import('pages/admin/SchedulePage.vue') },
       { path: 'perfil', name:'perfil', component: () => import('pages/admin/PerfilPage.vue') },
+      { path: 'configuracoes', name:'settingsPage', component: () => import('pages/admin/SettingsPage.vue') },
       
       { path: 'configuracao-pagina', name:'settingPage', component: () => import('pages/user-page/SettingPage.vue') },
     ]

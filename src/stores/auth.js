@@ -49,5 +49,23 @@ export const useAuth = defineStore("auth", {
       }
       return res;
     },
+    async resetPass(email){
+      const res = await callApi("post", "/auth/reset-pass",{email});
+
+      
+      return res;
+    },
+    async checkCode(email,code){
+      const res = await callApi("post", "/auth/check-code",{email,code});
+
+      
+      return res;
+    },
+    async updatePassword(email,code,password,password_confirmation){
+      const res = await callApi("put", "/auth/update-pass",{email,code,password,password_confirmation});
+
+      
+      return res;
+    }
   },
 });

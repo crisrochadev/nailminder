@@ -2,7 +2,7 @@
   <q-page class="w-full md:w-3/6 flex justify-center items-center relative">
     <q-card class="p-8 w-full">
       <div class="w-full text-center">
-        <h1 class="uppercase font-extrabold text-cyan-600 text-2xl pt-4">
+        <h1 class="uppercase font-extrabold  text-2xl pt-4" :class="[$theme.titleColor]">
           NailMinder
         </h1>
         <p class="pb-4 text-gray-800 text-lg">Entrar no sistema</p>
@@ -49,21 +49,19 @@
               @click="showPass = !showPass"
             />
           </template>
-          <template #hint>
-            <p>
-              Esqueceu a senha ?
-              <q-btn
-                dense
-                flat
-                color="white"
-                label="Recuperar"
-                size="sm"
-                text-color="cyan-6"
-                :to="{ name: 'restore' }"
-              />
-            </p>
-          </template>
         </q-input>
+        <p class="w-full flex justify-center items-center gap-4">
+          Esqueceu a senha ?
+          <q-btn
+            dense
+            flat
+            color="white"
+            label="Recuperar"
+            size="md"
+            text-color="cyan-6"
+            :to="{ name: 'restore' }"
+          />
+        </p>
 
         <q-btn
           type="submit"
@@ -93,13 +91,16 @@
 <script>
 import { useQuasar } from "quasar";
 import { useAuth } from "../../stores/auth";
+import { useUser } from 'src/stores/user';
 export default {
   data() {
     const $q = useQuasar();
     const auth = useAuth();
+    const store = useUser();
     return {
       $q,
       auth,
+      store,
       email: null,
       password: null,
       showPass: false,
@@ -110,6 +111,11 @@ export default {
   },
   mounted() {
     this.email = this.auth.email;
+  },
+  computed:{
+    $theme(){
+      return this.store.theme
+    }
   },
   methods: {
     async login() {

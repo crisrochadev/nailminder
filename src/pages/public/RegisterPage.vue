@@ -1,11 +1,19 @@
 <template>
-  <q-page class="w-full md:w-3/6 flex justify-center items-center h-full relative">
-   <div class="w-full mb-2" >
-    <q-btn icon="keyboard_backspace" dense flat color="cyan-8" @click="$router.go(-1)"/>
-   </div>
+  <q-page
+    class="w-full md:w-3/6 flex justify-center items-center h-full relative"
+  >
+    <div class="w-full mb-2">
+      <q-btn
+        icon="keyboard_backspace"
+        dense
+        flat
+        color="cyan-8"
+        @click="$router.go(-1)"
+      />
+    </div>
     <q-card class="p-8 w-full h-[calc(100%_-_100px)]">
       <div class="w-full text-center">
-        <h1 class="uppercase font-extrabold text-cyan-600 text-2xl pt-4">
+        <h1 class="uppercase font-extrabold  text-2xl pt-4" :class="[$theme.titleColor]">
           NailMinder
         </h1>
         <p class="pb-4 text-gray-800 text-lg">Cadastrar no sistema</p>
@@ -118,7 +126,7 @@
               <q-list dense>
                 <q-item>
                   <q-item-section>
-                    <q-item-label class="uppercase text-cyan-6"
+                    <q-item-label class="uppercase " :class="[$theme.titleColor]"
                       >Sua senha precisa ter:</q-item-label
                     >
                   </q-item-section>
@@ -224,6 +232,7 @@
           icon="how_to_reg"
           label="Cadastrar"
           size="md"
+          :loading="loading"
         />
       </q-form>
       <p class="w-full text-center pt-8">
@@ -243,18 +252,21 @@
 
 <script>
 import { useQuasar } from "quasar";
-import { useAuth } from 'src/stores/auth';
+import { useAuth } from "src/stores/auth";
+import { useUser } from 'src/stores/user';
 export default {
   data() {
     const $q = useQuasar();
     const auth = useAuth();
+    const store = useUser()
     return {
       $q,
       auth,
+      store,
       email: null,
       password: null,
-      name:null,
-      username:null,
+      name: null,
+      username: null,
       confirm_password: null,
       showPass: false,
       accept: false,
@@ -268,34 +280,56 @@ export default {
       showMenuPass: false,
       errorsPass: {},
       withoutError: false,
+      loading: false,
     };
   },
+  computed:{
+    $theme(){
+      return this.store.theme
+    }
+  },
   methods: {
-   async register() {
-      if(this.withoutError){
+    async register() {
+      this.loading = true;
+      if (this.withoutError) {
         const res = await this.auth.register({
-            name:this.name,
-            username:this.username,
-            email:this.email,
-            password:this.password,
-            password_confirmation:this.confirm_password
+          name: this.name,
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.confirm_password,
         });
 
-        if(res.success){
-           this.$q.notify({
-            message:res.data.message,
+        if (res.success) {
+          this.$q.notify({
+            message: res.data.message,
             color: "cyan-6",
             icon: "send",
             position: "center",
             timeout: "100000",
-            iconSize:'md',
-            classes:'uppercase font-bold'
-           })
+            iconSize: "md",
+            classes: "uppercase font-bold",
+            timeout: 1500,
+          });
+        } else {
+          this.$q.notify({
+            message:
+              res.response && res.response.data.message && res.response.data
+                ? res.response.data.message
+                : "Ocorreu um erro no registro, tente mais tarde, ou entre em contato com os canais de atendimento.",
+            color: "red-6",
+            icon: "info",
+            position: "center",
+            timeout: "100000",
+            iconSize: "md",
+            classes: "uppercase font-bold",
+            timeout: 1500,
+          });
         }
       }
+      this.loading = false;
     },
     checkValues(val) {
-      console.log("digitando....");
 
       this.showMenuPass = true;
       this.errorsPass["error_length"] =
@@ -309,31 +343,27 @@ export default {
       this.errorsPass["error_special"] =
         val !== null && val !== "" && !/[!@#$%¨&*"^{`~}]/.test(val);
       if (this.errorsPass.error_length) {
-        console.log(val);
+  
         this.passVal.length = false;
       } else {
         this.passVal.length = true;
       }
       if (this.errorsPass.error_min) {
-        console.log(this.password);
         this.passVal.min = false;
       } else {
         this.passVal.min = true;
       }
       if (this.errorsPass.error_max) {
-        console.log(this.password);
         this.passVal.max = false;
       } else {
         this.passVal.max = true;
       }
       if (this.errorsPass.error_num) {
-        console.log(this.password);
         this.passVal.num = false;
       } else {
         this.passVal.num = true;
       }
       if (this.errorsPass.error_special) {
-        console.log(this.password);
         this.passVal.special = false;
       } else {
         this.passVal.special = true;
