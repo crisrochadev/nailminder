@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" :class="$theme.bgColor">
+  <q-layout view="hHh Lpr lFf" :class="$theme.bgColor">
     <q-header
       unelevated
       flat
@@ -9,7 +9,11 @@
       <q-toolbar>
         <q-toolbar-title class="uppercase font-bold text-cyan-8 text-sm">
           <q-avatar size="md">
-            <q-icon :name="logo" class="full-width full-height" />
+            <q-btn
+              :icon="logo"
+              class="full-width full-height"
+              @click="drawerLeft = !drawerLeft"
+            />
           </q-avatar>
           <span
             class="ml-2"
@@ -118,6 +122,28 @@
       </q-toolbar>
     </q-header>
 
+    <q-drawer  v-model="drawerLeft" side="left" bordered overlay>
+      <q-scroll-area class="fit">
+        <q-list>
+          <q-item
+            v-for="item in menu"
+            :key="item.id"
+            clickable
+            v-close-popup
+            :to="{ name: item.to }"
+          >
+            <q-item-section avatar>
+              <q-icon :name="item.icon" :color="store.theme.buttomColor" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label :class="[store.theme.titleColor]">{{
+                item.title
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
     <q-page-container
       class="p-4 flex justify-center items-start h-screen border overflow-hidden"
     >
@@ -144,6 +170,21 @@ export default {
       avatar: "person",
       username: "Nome de Usuario",
       logo: "img:/icons/favicon-128x128.png",
+      drawerLeft: false,
+      menu: [
+        {
+          id: 1,
+          icon: "calendar_month",
+          title: "Agenda",
+          to: "schedule",
+        },
+        {
+          id: 2,
+          icon: "image",
+          title: "Meus trabalhos",
+          to: "jobs",
+        },
+      ],
     };
   },
   async mounted() {

@@ -160,6 +160,7 @@ export const useUser = defineStore("user", {
         "Content-Type": "multipart/form-data",
       });
 
+      console.log(res)
       if (!res.success) {
         this.$q.notify({
           message:
